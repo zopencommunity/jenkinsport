@@ -1,6 +1,6 @@
 # Update bump details accordingly. Use bump check to confirm.
-# bump: jenkins-version /JENKINS_VERSION="(.*)"/ https://github.com/jenkinsci/jenkins.git|semver:*
-# JENKINS_VERSION="V.R.M" # Specify a stable release
+# bump: jenkins-version /JENKINS_VERSION="(.*)"/ https://github.com/jenkinsci/jenkins/releases/|re:/href=".*?jenkins-([\d.]+)"/$1/|semver:*
+JENKINS_VERSION="2.515" # Specify a stable release
 # export ZOPEN_STABLE_TAG="v${JENKINS_VERSION}"
 
 ###
@@ -16,12 +16,12 @@
 export ZOPEN_TYPE="BARE"
 
 ## Required IF ZOPEN_BUILD_LINE='STABLE'
-export ZOPEN_STABLE_URL="https://github.com/jenkinsci/jenkins.git"  # Specify the stable build URL (either git or tarball)
-export ZOPEN_STABLE_DEPS="zoslib make grep check_java bash" # Specify the stable build dependencies.
+#export ZOPEN_STABLE_URL="https://github.com/jenkinsci/jenkins.git"  # Specify the stable build URL (either git or tarball)
+#export ZOPEN_STABLE_DEPS="zoslib make grep check_java bash" # Specify the stable build dependencies.
 
 ## Required IF ZOPEN_BUILD_LINE='DEV'
-export ZOPEN_DEV_URL="https://github.com/jenkinsci/jenkins.git"   # Specify the dev build URL
-export ZOPEN_DEV_DEPS="zoslib make grep check_java bash"  # Specify the dev build dependencies
+#export ZOPEN_DEV_URL="https://github.com/jenkinsci/jenkins.git"   # Specify the dev build URL
+#export ZOPEN_DEV_DEPS="zoslib make grep check_java bash"  # Specify the dev build dependencies
 
 ## Specify a space-delimited list of applicable categories.
 ## See tool_categories.txt for valid options
@@ -51,19 +51,16 @@ zopen_init()
 pwd #jenkinsport
 mkdir -p jenkins
 cd jenkins
-curl -L -o jenkins.war https://github.com/jenkinsci/jenkins/releases/download/jenkins-2.511/jenkins.war
+curl -L -o jenkins.war https://github.com/jenkinsci/jenkins/releases/download/jenkins-$JENKINS_VERSION/jenkins.war
 cd -
 }
 
 zopen_install()
 {
-pwd
-set -x
-echo $PWD
-echo ${ZOPEN_INSTALL_DIR}
 cd jenkins
 mkdir -p ${ZOPEN_INSTALL_DIR}/bin/
 cp jenkins.war ${ZOPEN_INSTALL_DIR}/bin/
+cd -
 }
 
 ###
@@ -87,7 +84,7 @@ zopen_get_version()
 {
   # Modify to echo the version of your tool/library
   # Rather than hardcoding the version, obtain the version by running the tool/library
-  echo "1.0.0"
+  echo $JENKINS_VERSION 
 }
 
 
