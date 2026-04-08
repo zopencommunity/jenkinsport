@@ -1,7 +1,7 @@
 # Update bump details accordingly. Use bump check to confirm.
-# bump: jenkins-version /JENKINS_VERSION="(.*)"/ https://github.com/jenkinsci/jenkins/releases/|re:/href=".*?jenkins-([\d.]+)"/$1/|semver:*
-JENKINS_VERSION="2.558" # Specify a stable release
-# export ZOPEN_STABLE_TAG="v${JENKINS_VERSION}"
+# Track every 10th version (versions ending in 0, e.g., 2.510, 2.520, 2.530)
+# bump: jenkins-version /JENKINS_VERSION="(.*)"/ gitrefs:https://github.com/jenkinsci/jenkins.git|re:/jenkins-([\d]+\.[\d]*0)$/|semver:*
+JENKINS_VERSION="2.558" # Specify a stable release (every 10th version)
 
 ###
 ### Build control file for the jenkins port
@@ -45,10 +45,10 @@ export ZOPEN_CONFIGURE="skip" ## Configuration program to run (defaults to './co
 export ZOPEN_INSTALL="zopen_install"   ## Installation program to run (defaults to 'make')
 export ZOPEN_MAKE="skip"      ## Build program to run (defaults to 'make')
 #export ZOPEN_CLEAN=""         ## Clean up program to run (defaults to 'make')
-export ZOPEN_NAME="jenkins"
+export ZOPEN_NAME="jenkins-$JENKINS_VERSION"
+
 zopen_init()
 {
-pwd #jenkinsport
 mkdir -p jenkins
 cd jenkins
 curl -L -o jenkins.war https://github.com/jenkinsci/jenkins/releases/download/jenkins-$JENKINS_VERSION/jenkins.war
