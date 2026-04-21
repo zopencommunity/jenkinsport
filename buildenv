@@ -1,7 +1,7 @@
 # Update bump details accordingly. Use bump check to confirm.
 # Track every 10th version (versions ending in 0, e.g., 2.510, 2.520, 2.530)
 # bump: jenkins-version /JENKINS_VERSION="(.*)"/ gitrefs:https://github.com/jenkinsci/jenkins.git|re:/jenkins-([\d]+\.[\d]*0)$/|semver:*
-JENKINS_VERSION="2.558" # Specify a stable release (every 10th version)
+JENKINS_VERSION="2.560" # Specify a stable release (every 10th version)
 
 ###
 ### Build control file for the jenkins port
